@@ -2,9 +2,10 @@
 
 FROM cm2network/steamcmd:build_stage as build_stage
 
-ENV STEAMAPPID=222860
-ENV STEAMAPPDIR="l4d2"
-ENV START_MAP_LIST="/l4d2/startmaps.txt"
+ENV STEAMAPPID 222860
+ENV STEAMAPP l4d2
+ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}-dedicated"
+ENV START_MAP_LIST_FILE "${STEAMAPPDIR}/startmaps.txt"
 
 COPY entrypoint.sh "${HOMEDIR}/entrypoint.sh"
 COPY "./defaultfiles" /etc/defaultfiles
@@ -34,6 +35,19 @@ RUN set -x \
 
 # set stage name
 FROM build_stage AS game
+
+ENV SRCDS_FPSMAX=300 \
+	SRCDS_PORT=27015 \
+	SRCDS_NET_PUBLIC_ADDRESS="0" \
+	SRCDS_IP="0" \
+	SRCDS_LAN="0" \
+	SRCDS_MAXPLAYERS=8 \
+	SRCDS_TOKEN=0 \
+	SRCDS_RCONPW="changeme" \
+	SRCDS_PW="changeme" \
+	SRCDS_REGION=3 \
+	SRCDS_HOSTNAME="New \"${STEAMAPP}\" Server" \
+	ADDITIONAL_ARGS=""
 
 # Switch to user
 USER ${USER}
