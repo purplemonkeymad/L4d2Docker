@@ -1,6 +1,6 @@
 # steamcmd base matained by cm2network https://github.com/CM2Walki/steamcmd
 
-FROM cm2network/steamcmd:build_stage as build_stage
+FROM cm2network/steamcmd:root as build_stage
 
 ENV STEAMAPPID 222860
 ENV STEAMAPP l4d2
@@ -28,8 +28,8 @@ RUN set -x \
 		echo 'app_update '"${STEAMAPPID}"''; \
 		echo 'quit'; \
 	   } > "${HOMEDIR}/${STEAMAPP}_update.txt" \
-	&& chmod +x "${HOMEDIR}/entry.sh" \
-	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}" "${HOMEDIR}/${STEAMAPP}_update.txt" \
+	&& chmod +x "${HOMEDIR}/entrypoint.sh" \
+	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entrypoint.sh" "${STEAMAPPDIR}" "${HOMEDIR}/${STEAMAPP}_update.txt" \
 	# Clean up
 	&& rm -rf /var/lib/apt/lists/* 
 
