@@ -1,10 +1,15 @@
 version: '3.8'
 services:
   l4d2:
-    restart: always
+    restart: "no"
     build:
       context: ./
       dockerfile: Dockerfile
     ports:
       - "27015:27015/udp" # game port
-    
+      - "27015:27015/tcp" # rcon port
+    secrets:
+      - rcon_password
+secrets:
+  rcon_password:
+    file: secrets/rconpassword.txt
