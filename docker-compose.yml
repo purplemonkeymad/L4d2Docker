@@ -21,6 +21,31 @@ services:
 
     #--------
 
+    # example overrides using envs
+    environment:
+    # use a server.cfg file instead, mapped from volumes settings.
+    #  - SRCDS_AUTOEXEC="custom/server.cfg"
+    # sv_fpsmax
+    #  - SRCDS_FPSMAX="300"
+    # custom port number, should match ports in ports section
+    #  - SRCDS_PORT="27015"
+    # override external ip
+    #  - SRCDS_NET_PUBLIC_ADDRESS="0"
+    # sv_lan
+      - SRCDS_LAN="0"
+    # maxplayers
+      - SRCDS_MAXPLAYERS=8
+    # sv_setsteamaccount , not used by l4d2
+    #  - SRCDS_TOKEN=0
+    # rcon_password, better to use secrets.
+    #  - SRCDS_RCONPW="changeme"
+    # client password
+    #  - SRCDS_PW=""
+    # sv_region
+      - SRCDS_REGION=3
+    # hostname
+      - SRCDS_HOSTNAME="New L4d2 Server"
+
 secrets:
   rcon_password:
     file: secrets/rconpassword.txt
