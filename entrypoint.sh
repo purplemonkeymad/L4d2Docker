@@ -36,6 +36,12 @@ else
     SRCDS_STARTMAP="c1m1_hotel"
 fi
 
+# copy customizations to the game dir
+if [ -f "/customfiles/" ]; then
+    echo "Custom files found, copying files."
+    cp -r /customfiles/* "${STEAMAPPDIR}"
+fi
+
 # If no autoexec is present, use all parameters
 bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
             -steam_dir "${STEAMCMDDIR}" \
