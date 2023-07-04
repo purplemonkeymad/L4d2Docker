@@ -37,7 +37,7 @@ else
 fi
 
 # copy customizations to the game dir
-if [ -f "/customfiles/" ]; then
+if [ -d "/customfiles/" ]; then
     echo "Custom files found, copying files."
     cp -r /customfiles/* "${STEAMAPPDIR}"
 fi
