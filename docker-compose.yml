@@ -10,6 +10,17 @@ services:
       - "27015:27015/tcp" # rcon port
     secrets:
       - rcon_password
+    #--------
+    # you can customise the install by loading out
+    # volumes for some of the program folders:
+    # example, uncomment to enable:
+
+    #volumes:
+    #  - ./left4dead2/cfg/custom/:/customfiles/left4dead2/cfg/custom/:ro
+    #  - ./left4dead2/addons/:/customfiles/left4dead2/addons/:ro
+
+    #--------
+
 secrets:
   rcon_password:
     file: secrets/rconpassword.txt
