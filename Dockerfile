@@ -3,7 +3,7 @@
 FROM cm2network/steamcmd:root as build_stage
 
 ENV STEAMAPPID 222860
-ENV STEAMAPP l4d2
+ENV STEAMAPP left4dead2
 ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}-dedicated"
 ENV START_MAP_LIST_FILE "${STEAMAPPDIR}/startmaps.txt"
 
