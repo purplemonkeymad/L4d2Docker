@@ -51,4 +51,5 @@ bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
             +sv_region "${SRCDS_REGION}" \
             +net_public_adr "${SRCDS_NET_PUBLIC_ADDRESS}" \
             +sv_lan "${SRCDS_LAN}" \
+            +exec "${SRCDS_AUTOEXEC}" \
             "${ADDITIONAL_ARGS}"
