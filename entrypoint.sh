@@ -15,6 +15,19 @@ bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
 # Believe it or not, if you don't do this srcds_run shits itself
 cd "${STEAMAPPDIR}"
 
+# find if rcon secret file was set and use that if it is
+
+rcon_passwd_secret="/run/secrets/rcon_password"
+if [ -f "$rcon_passwd_secret" ]; then
+    RCON_PASSWORD="$(cat "$rcon_passwd_secret")"
+elif [ -z "${SRCDS_RCONPW}"]; then
+    RCON_PASSWORD="${SRCDS_RCONPW}"
+else
+    RCON_PASSWORD="$(tr -dc A-Za-z0-9 </dev/urandom | head -c 13)"
+    echo "Random rcon password assigned: $RCON_PASSWORD"
+fi
+
+# map settings
 starting_maplist="${START_MAP_LIST_FILE}"
 
 if [ -f "$starting_maplist" ]; then
@@ -33,7 +46,7 @@ bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
             +maxplayers "${SRCDS_MAXPLAYERS}" \
             +map "$SRCDS_STARTMAP" \
             +sv_setsteamaccount "${SRCDS_TOKEN}" \
-            +rcon_password "${SRCDS_RCONPW}" \
+            +rcon_password "$RCON_PASSWORD" \
             +sv_password "${SRCDS_PW}" \
             +sv_region "${SRCDS_REGION}" \
             +net_public_adr "${SRCDS_NET_PUBLIC_ADDRESS}" \
