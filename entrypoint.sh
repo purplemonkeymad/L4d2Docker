@@ -15,12 +15,16 @@ bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
 # Believe it or not, if you don't do this srcds_run shits itself
 cd "${STEAMAPPDIR}"
 
+echo "Starting post install configuration."
+
 # find if rcon secret file was set and use that if it is
 
 rcon_passwd_secret="/run/secrets/rcon_password"
 if [ -f "$rcon_passwd_secret" ]; then
+    echo "Using rcon password from docker secrets"
     RCON_PASSWORD="$(cat "$rcon_passwd_secret")"
 elif [ -z "${SRCDS_RCONPW}"]; then
+    echo "Using rcon password from env. (Consider using docker-compose secrets instead.)"
     RCON_PASSWORD="${SRCDS_RCONPW}"
 else
     RCON_PASSWORD="$(tr -dc A-Za-z0-9 </dev/urandom | head -c 13)"
@@ -32,6 +36,7 @@ starting_maplist="${START_MAP_LIST_FILE}"
 
 if [ -f "$starting_maplist" ]; then
     SRCDS_STARTMAP=$(shuf -n 1 "$starting_maplist")
+    echo "Random map selected: $SRCDS_STARTMAP"
 else
     SRCDS_STARTMAP="c1m1_hotel"
 fi
@@ -41,6 +46,8 @@ if [ -d "/customfiles/" ]; then
     echo "Custom files found, copying files."
     cp -r /customfiles/* "${STEAMAPPDIR}"
 fi
+
+echo "Completed post install configuration."
 
 # If no autoexec is present, use all parameters
 bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
