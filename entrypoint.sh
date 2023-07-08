@@ -68,6 +68,7 @@ echo "Completed post install configuration."
 ## create cfg file for parameter options, stops rcon in ps aux
 
 cfgpath="${STEAMAPPDIR}/${STEAMAPP}/cfg/"
+mkdir "$cfgpath/commandline/"
 cat > "$cfgpath/commandline/autoexec.cfg" << EOL
 +sv_lan "${SRCDS_LAN}" 
 fps_max "${SRCDS_FPSMAX}"
