@@ -47,6 +47,22 @@ if [ -d "/customfiles/" ]; then
     cp -r /customfiles/* "${STEAMAPPDIR}"
 fi
 
+# external ip auto detection if not specified
+if [ -n "${SRCDS_NET_PUBLIC_ADDRESS}" -a "${SRCDS_NET_PUBLIC_ADDRESS}" != "0" ]; then
+    echo "Using specified Public Address: ${SRCDS_NET_PUBLIC_ADDRESS}"
+    publicaddress="${SRCDS_NET_PUBLIC_ADDRESS}"
+else
+    # detect public ip
+    ip=$(curl -s https://api.ipify.org)
+    if [ -n "$ip" ]; then
+        echo "Determined Public Address to be: $ip"
+        publicaddress="$ip"
+    else
+        echo "Unable to Determine Public Address"
+        publicaddress="0"
+    fi
+fi
+
 echo "Completed post install configuration."
 
 # If no autoexec is present, use all parameters
@@ -62,7 +78,7 @@ bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
             +rcon_password "$RCON_PASSWORD" \
             +sv_password "${SRCDS_PW}" \
             +sv_region "${SRCDS_REGION}" \
-            +net_public_adr "${SRCDS_NET_PUBLIC_ADDRESS}" \
+            +net_public_adr "$publicaddress" \
             +sv_lan "${SRCDS_LAN}" \
             +exec "${SRCDS_AUTOEXEC}" \
             "${ADDITIONAL_ARGS}"
