@@ -65,20 +65,30 @@ fi
 
 echo "Completed post install configuration."
 
+## create cfg file for parameter options, stops rcon in ps aux
+
+cfgpath="${STEAMAPPDIR}/${STEAMAPP}/cfg/"
+mkdir "$cfgpath/"
+cat > "$cfgpath/commandline.cfg" << EOL
+sv_lan ${SRCDS_LAN}
+fps_max ${SRCDS_FPSMAX}
+maxplayers ${SRCDS_MAXPLAYERS}
+sv_setsteamaccount ${SRCDS_TOKEN}
+rcon_password "$RCON_PASSWORD"
+sv_password "${SRCDS_PW}"
+sv_region ${SRCDS_REGION}
+
+// run requested auto exec
+exec ${SRCDS_AUTOEXEC}
+EOL
+
 # If no autoexec is present, use all parameters
 bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
             -steam_dir "${STEAMCMDDIR}" \
             -steamcmd_script "${HOMEDIR}/${STEAMAPP}_update.txt" \
             -usercon \
-            +fps_max "${SRCDS_FPSMAX}" \
             -port "${SRCDS_PORT}" \
-            +maxplayers "${SRCDS_MAXPLAYERS}" \
             +map "$SRCDS_STARTMAP" \
-            +sv_setsteamaccount "${SRCDS_TOKEN}" \
-            +rcon_password "$RCON_PASSWORD" \
-            +sv_password "${SRCDS_PW}" \
-            +sv_region "${SRCDS_REGION}" \
             +net_public_adr "$publicaddress" \
-            +sv_lan "${SRCDS_LAN}" \
-            +exec "${SRCDS_AUTOEXEC}" \
+            +exec "commandline.cfg" \
             "${ADDITIONAL_ARGS}"
