@@ -69,7 +69,7 @@ echo "Completed post install configuration."
 
 cfgpath="${STEAMAPPDIR}/${STEAMAPP}/cfg/"
 mkdir "$cfgpath/"
-cat > "$cfgpath/commandline.cfg" << EOL
+cat > "$cfgpath/autoexec.cfg" << EOL
 sv_lan ${SRCDS_LAN}
 fps_max ${SRCDS_FPSMAX}
 maxplayers ${SRCDS_MAXPLAYERS}
@@ -82,6 +82,11 @@ sv_region ${SRCDS_REGION}
 exec ${SRCDS_AUTOEXEC}
 EOL
 
+cat > "$cfgpath/server.cfg" << EOL
+// exec the custom server cfg
+exec ${SRCDS_SERVERCFG}
+EOL
+
 # If no autoexec is present, use all parameters
 bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
             -steam_dir "${STEAMCMDDIR}" \
@@ -90,5 +95,5 @@ bash "${STEAMAPPDIR}/srcds_run" -game "${STEAMAPP}" -console -autoupdate \
             -port "${SRCDS_PORT}" \
             +map "$SRCDS_STARTMAP" \
             +net_public_adr "$publicaddress" \
-            +exec "commandline.cfg" \
+            +exec "autoexec.cfg" \
             "${ADDITIONAL_ARGS}"

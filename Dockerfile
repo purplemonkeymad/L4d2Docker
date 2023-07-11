@@ -50,7 +50,8 @@ ENV SRCDS_FPSMAX=300 \
 	SRCDS_PW="" \
 	SRCDS_REGION=3 \
 	SRCDS_HOSTNAME="New \"${STEAMAPP}\" Server" \
-	SRCDS_AUTOEXEC="" \
+	SRCDS_AUTOEXEC="noconfig.cfg" \
+	SRCDS_SERVERCFG="noconfig.cfg" \
 	ADDITIONAL_ARGS=""
 
 # Switch to user
