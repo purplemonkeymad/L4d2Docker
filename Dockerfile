@@ -30,6 +30,9 @@ RUN set -x \
 	   } > "${HOMEDIR}/${STEAMAPP}_update.txt" \
 	&& chmod +x "${HOMEDIR}/entrypoint.sh" \
 	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entrypoint.sh" "${STEAMAPPDIR}" "${HOMEDIR}/${STEAMAPP}_update.txt" \
+	# setup log folder.
+	&& mkdir "/var/log/${STEAMAPP}/"  \
+	&& chown -R "${USER}:${USER}" "/var/log/${STEAMAPP}/" \ 
 	# Clean up
 	&& rm -rf /var/lib/apt/lists/* 
 
