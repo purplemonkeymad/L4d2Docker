@@ -23,8 +23,9 @@ services:
 
     # example overrides using envs
     environment:
-    # use a server.cfg file instead, mapped from volumes settings.
-    #  - SRCDS_AUTOEXEC="custom/server.cfg"
+    # Specificy custom auto exec and server files
+    #  - SRCDS_AUTOEXEC="custom/autoexec.cfg"
+    #  - SRCDS_SERVERCFG="custom/server.cfg"
     # sv_fpsmax
     #  - SRCDS_FPSMAX="300"
     # custom port number, should match ports in ports section
